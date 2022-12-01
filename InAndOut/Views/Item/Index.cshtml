@@ -1,5 +1,46 @@
-﻿@{
+﻿@model IEnumerable<Item>
+
+@{
     ViewData["Title"] = "Items";
 }
 
-<h1>Items</h1>
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-primary">Borrowed Items List</h2>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary">Create New Item</button>
+        </div>
+    </div>
+
+    <br />
+    @if(Model.Any())
+    {
+        <table class="table table-bordered table-striped w-100">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Borrower</th>
+                    <th>Lender</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@item.Borrower</td>
+                        <td>@item.Id</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+       
+    }
+    else
+    {
+        <h2>No items created yet</h2>
+    }
+</div>
+
