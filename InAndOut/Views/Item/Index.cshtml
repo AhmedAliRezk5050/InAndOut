@@ -10,12 +10,12 @@
             <h2 class="text-primary">Borrowed Items List</h2>
         </div>
         <div class="col-6">
-            <button class="btn btn-primary">Create New Item</button>
+            <a asp-action="Create" class="btn btn-primary">Create New Item</a>
         </div>
     </div>
 
     <br />
-    @if(Model.Any())
+    @if (Model.Any())
     {
         <table class="table table-bordered table-striped w-100">
             <thead>
@@ -36,7 +36,7 @@
                 }
             </tbody>
         </table>
-       
+
     }
     else
     {

@@ -1,0 +1,41 @@
+﻿@model CreateItemViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Item</h1>
+
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form asp-action="Create">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="mb-3">
+                    <label asp-for="ItemName" class="form-label"></label>
+                    <input type="text" class="form-control" asp-for="ItemName" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Borrower" class="form-label"></label>
+                    <input type="text" class="form-control" asp-for="Borrower" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Lender" class="form-label"></label>
+                    <input type="text" class="form-control" asp-for="Lender" />
+                </div>
+
+                <button type="submit" class="btn btn-success">Add Item</button>
+                <a  class="btn btn-danger" asp-action="Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
