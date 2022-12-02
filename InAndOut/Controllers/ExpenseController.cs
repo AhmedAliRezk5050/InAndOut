@@ -51,14 +51,14 @@ namespace InAndOut.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            if(id <=0)
+            if (id <= 0)
             {
                 return NotFound();
             }
 
             var expense = await _dbContext.Expenses.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
 
-            if(expense is null)
+            if (expense is null)
             {
                 return NotFound();
             }
@@ -85,6 +85,58 @@ namespace InAndOut.Controllers
             _dbContext.Expenses.Remove(expense);
 
             await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+
+            var expense = await _dbContext.Expenses.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+
+            if (expense is null)
+            {
+                return NotFound();
+            }
+
+            return View(new EditExpenseViewModel()
+            {
+                Amount = expense.Amount,
+                ExpenseName = expense.ExpenseName,
+                Id = expense.Id
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditExpenseViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.Id <= 0)
+            {
+                return NotFound();
+            }
+
+            var expense = await _dbContext.Expenses.FirstOrDefaultAsync(e => e.Id == model.Id);
+
+            if (expense is null)
+            {
+                return NotFound();
+            }
+
+            expense.ExpenseName = model.ExpenseName;
+            expense.Amount = model.Amount ?? 0;
+
+            await _dbContext.SaveChangesAsync();
+
 
             return RedirectToAction(nameof(Index));
         }

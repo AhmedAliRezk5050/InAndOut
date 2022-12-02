@@ -31,7 +31,11 @@
                     <tr>
                         <td>@item.ExpenseName</td>
                         <td>@item.Amount</td>
-                        <td><a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></td>
+
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning mx-1">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-1">Delete</a>
+                        </td>
                     </tr>
                 }
             </tbody>
