@@ -14,5 +14,7 @@ namespace InAndOut.Data
 
         public DbSet<Expense> Expenses { get; set; } = null!;
 
+        public DbSet<ExpenseType> ExpenseTypes { get; set; } = null!;
+
     }
 }
