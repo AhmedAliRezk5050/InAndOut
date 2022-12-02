@@ -12,5 +12,7 @@ namespace InAndOut.Data
 
         public DbSet<Item> Items { get; set; } = null!;
 
+        public DbSet<Expense> Expenses { get; set; } = null!;
+
     }
 }

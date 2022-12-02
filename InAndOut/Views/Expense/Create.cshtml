@@ -1,0 +1,37 @@
+﻿@model CreateExpenseViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Expense</h1>
+
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form asp-action="Create">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="mb-3">
+                    <label asp-for="ExpenseName" class="form-label"></label>
+                    <input class="form-control" asp-for="ExpenseName" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label"></label>
+                    <input class="form-control" asp-for="Amount" />
+                </div>
+
+                <button type="submit" class="btn btn-success">Add Expense</button>
+                <a class="btn btn-danger" asp-action="Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
