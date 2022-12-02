@@ -24,6 +24,13 @@
                     <span asp-validation-for="Amount" class="text-danger"></span>
                 </div>
 
+                <div class="mb-3">
+                    <label asp-for="ExpenseTypeId" class="form-label"></label>
+                    <select asp-items="@Model.ExpenseTypesList" asp-for="ExpenseTypeId" class="form-control">
+                    </select>
+                    <span asp-validation-for="ExpenseTypeId" class="text-danger"></span>
+                </div>
+
                 <button type="submit" class="btn btn-success">Edit Expense</button>
                 <a class="btn btn-danger" asp-action="Index">Cancel</a>
             </form>
@@ -32,9 +39,3 @@
 </div>
 
 
-@section Scripts
-    {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}

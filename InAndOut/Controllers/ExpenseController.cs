@@ -2,6 +2,7 @@
 using InAndOut.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InAndOut.Controllers
 {
@@ -15,15 +16,24 @@ namespace InAndOut.Controllers
         }
 
         public IActionResult Index()
-        {
-            var expenses = _dbContext.Expenses;
+            {
+            var expenses = _dbContext.Expenses.Include(e => e.ExpenseType);
 
             return View(expenses);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var model = new CreateExpenseViewModel
+            {
+                ExpenseTypesList = (await _dbContext.ExpenseTypes.ToListAsync())
+                .Select(e => new SelectListItem()
+                {
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                })
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -32,6 +42,13 @@ namespace InAndOut.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.ExpenseTypesList = (await _dbContext.ExpenseTypes.ToListAsync())
+                .Select(e => new SelectListItem()
+                {
+                    Text = e.Name,
+                    Value = e.Id.ToString(),
+                });
+
                 return View(model);
             }
 
@@ -39,7 +56,8 @@ namespace InAndOut.Controllers
             var expense = new Expense()
             {
                 ExpenseName = model.ExpenseName,
-                Amount = model.Amount ?? 0
+                Amount = model.Amount ?? 0,
+                ExpenseTypeId = model.ExpenseTypeId ?? 0
             };
 
             _dbContext.Expenses.Add(expense);
@@ -107,7 +125,14 @@ namespace InAndOut.Controllers
             {
                 Amount = expense.Amount,
                 ExpenseName = expense.ExpenseName,
-                Id = expense.Id
+                Id = expense.Id,
+                ExpenseTypeId = expense.ExpenseTypeId,
+                ExpenseTypesList = (await _dbContext.ExpenseTypes.ToListAsync())
+                .Select(e => new SelectListItem()
+                {
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                })
             });
         }
 
@@ -117,6 +142,12 @@ namespace InAndOut.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.ExpenseTypesList = (await _dbContext.ExpenseTypes.ToListAsync())
+                .Select(e => new SelectListItem()
+                {
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                });
                 return View(model);
             }
 
@@ -134,6 +165,7 @@ namespace InAndOut.Controllers
 
             expense.ExpenseName = model.ExpenseName;
             expense.Amount = model.Amount ?? 0;
+            expense.ExpenseTypeId = model.ExpenseTypeId ?? 0;
 
             await _dbContext.SaveChangesAsync();
 
